@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "thyroid_ultrasound",
+  "title": "甲状腺超声结构化报告",
+  "type": "object",
+  "required": ["exam_type"],
+  "properties": {
+    "exam_type": { "type": "string", "const": "thyroid_ultrasound" },
+    "organs_examined": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["thyroid_right", "thyroid_left", "isthmus"] }
+    },
+    "thyroid_right": { "$ref": "#/definitions/lobe" },
+    "thyroid_left": { "$ref": "#/definitions/lobe" },
+    "isthmus": {
+      "type": "object",
+      "properties": {
+        "thickness_mm": { "type": "number" },
+        "description": { "type": "string" }
+      }
+    },
+    "other_findings": { "type": "string" },
+    "impression_hints": { "type": "array", "items": { "type": "string" } },
+    "metadata": { "$ref": "#/definitions/metadata" }
+  },
+  "definitions": {
+    "lobe": {
+      "type": "object",
+      "properties": {
+        "size": {
+          "type": "object",
+          "properties": {
+            "length_mm": { "type": "number" },
+            "width_mm": { "type": "number" },
+            "thickness_mm": { "type": "number" }
+          }
+        },
+        "echo": { "type": "string", "enum": ["normal", "increased", "decreased", "heterogeneous"] },
+        "echo_description": { "type": "string" },
+        "nodules": { "type": "array", "items": { "$ref": "#/definitions/nodule" } }
+      }
+    },
+    "nodule": {
+      "type": "object",
+      "properties": {
+        "location": { "type": "string" },
+        "size_mm": { "type": "number" },
+        "echo": { "type": "string", "enum": ["anechoic", "hypoechoic", "hyperechoic", "mixed", "isoechoic"] },
+        "boundary": { "type": "string", "enum": ["clear", "unclear"] },
+        "shape": { "type": "string", "enum": ["round", "oval", "irregular"] },
+        "calcification": { "type": "boolean" },
+        "halo": { "type": "boolean" },
+        "uncertainty": { "type": "boolean" }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "asr_text": { "type": "string" },
+        "uncertain_fields": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

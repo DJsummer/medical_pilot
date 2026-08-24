@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "breast_ultrasound",
+  "title": "乳腺超声结构化报告",
+  "type": "object",
+  "required": ["exam_type"],
+  "properties": {
+    "exam_type": { "type": "string", "const": "breast_ultrasound" },
+    "organs_examined": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["breast_right", "breast_left"] }
+    },
+    "breast_right": { "$ref": "#/definitions/breast" },
+    "breast_left": { "$ref": "#/definitions/breast" },
+    "other_findings": { "type": "string" },
+    "impression_hints": { "type": "array", "items": { "type": "string" } },
+    "metadata": { "$ref": "#/definitions/metadata" }
+  },
+  "definitions": {
+    "breast": {
+      "type": "object",
+      "properties": {
+        "gland_echo": { "type": "string", "enum": ["normal", "increased", "decreased", "heterogeneous"] },
+        "duct": { "type": "string" },
+        "nodules": { "type": "array", "items": { "$ref": "#/definitions/nodule" } }
+      }
+    },
+    "nodule": {
+      "type": "object",
+      "properties": {
+        "location": { "type": "string" },
+        "quadrant": { "type": "string" },
+        "size_mm": { "type": "number" },
+        "echo": { "type": "string", "enum": ["anechoic", "hypoechoic", "hyperechoic", "mixed", "isoechoic"] },
+        "boundary": { "type": "string", "enum": ["clear", "unclear"] },
+        "posterior_enhancement": { "type": "boolean" },
+        "uncertainty": { "type": "boolean" }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "asr_text": { "type": "string" },
+        "uncertain_fields": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

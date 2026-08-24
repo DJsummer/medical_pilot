@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "cardiac_ultrasound",
+  "title": "心脏超声结构化报告",
+  "type": "object",
+  "required": ["exam_type"],
+  "properties": {
+    "exam_type": { "type": "string", "const": "cardiac_ultrasound" },
+    "organs_examined": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["lv", "rv", "atria", "valves", "pericardium"] }
+    },
+    "lv": {
+      "type": "object",
+      "properties": {
+        "internal_diameter_mm": { "type": "number" },
+        "wall_thickness_mm": { "type": "number" },
+        "wall_motion": { "type": "string", "enum": ["normal", "reduced", "asymmetric"] },
+        "wall_motion_description": { "type": "string" },
+        "ef_percent": { "type": "number" }
+      }
+    },
+    "rv": {
+      "type": "object",
+      "properties": {
+        "internal_diameter_mm": { "type": "number" },
+        "wall_motion": { "type": "string" }
+      }
+    },
+    "atria": {
+      "type": "object",
+      "properties": {
+        "left_atrium_mm": { "type": "number" },
+        "right_atrium_description": { "type": "string" }
+      }
+    },
+    "valves": {
+      "type": "object",
+      "properties": {
+        "mitral": { "type": "string" },
+        "aortic": { "type": "string" },
+        "tricuspid": { "type": "string" },
+        "pulmonary": { "type": "string" }
+      }
+    },
+    "pericardium": { "type": "object", "properties": { "description": { "type": "string" } } },
+    "other_findings": { "type": "string" },
+    "impression_hints": { "type": "array", "items": { "type": "string" } },
+    "metadata": { "$ref": "#/definitions/metadata" }
+  },
+  "definitions": {
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "asr_text": { "type": "string" },
+        "uncertain_fields": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

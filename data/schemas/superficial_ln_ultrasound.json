@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "superficial_ln_ultrasound",
+  "title": "浅表淋巴结超声结构化报告",
+  "type": "object",
+  "required": ["exam_type"],
+  "properties": {
+    "exam_type": { "type": "string", "const": "superficial_ln_ultrasound" },
+    "organs_examined": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["cervical", "axillary", "other"] }
+    },
+    "cervical": { "type": "array", "items": { "$ref": "#/definitions/node" } },
+    "axillary": { "type": "array", "items": { "$ref": "#/definitions/node" } },
+    "other": { "type": "array", "items": { "$ref": "#/definitions/node" } },
+    "other_findings": { "type": "string" },
+    "impression_hints": { "type": "array", "items": { "type": "string" } },
+    "metadata": { "$ref": "#/definitions/metadata" }
+  },
+  "definitions": {
+    "node": {
+      "type": "object",
+      "properties": {
+        "location": { "type": "string" },
+        "size_mm": { "type": "number" },
+        "short_axis_mm": { "type": "number" },
+        "shape": { "type": "string", "enum": ["oval", "round", "irregular"] },
+        "boundary": { "type": "string", "enum": ["clear", "unclear"] },
+        "hilum": { "type": "string", "enum": ["present", "absent", "compressed"] },
+        "blood_flow": { "type": "string" },
+        "uncertainty": { "type": "boolean" }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "asr_text": { "type": "string" },
+        "uncertain_fields": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

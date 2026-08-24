@@ -1,0 +1,56 @@
+{
+  "version": "1.0",
+  "exam_type": "superficial_ln_ultrasound",
+  "description": "浅表淋巴结超声 Gold Dataset",
+  "samples": [
+    {
+      "id": "ln-001",
+      "asr_text": "双侧颈部未见明显肿大淋巴结。",
+      "structured": {
+        "exam_type": "superficial_ln_ultrasound",
+        "organs_examined": ["cervical"],
+        "cervical": [],
+        "impression_hints": []
+      },
+      "expected_impression": "浅表淋巴结超声未见明显肿大淋巴结。"
+    },
+    {
+      "id": "ln-002",
+      "asr_text": "右侧颈部II区可见约15毫米淋巴结，形态椭圆，边界清，淋巴门可见。",
+      "structured": {
+        "exam_type": "superficial_ln_ultrasound",
+        "organs_examined": ["cervical"],
+        "cervical": [
+          {
+            "location": "右侧颈部II区",
+            "size_mm": 15,
+            "shape": "oval",
+            "boundary": "clear",
+            "hilum": "present"
+          }
+        ],
+        "impression_hints": ["右侧颈部淋巴结肿大，建议随访。"]
+      },
+      "expected_impression": "右侧颈部淋巴结肿大，建议随访。"
+    },
+    {
+      "id": "ln-003",
+      "asr_text": "左侧腋窝可见约8毫米淋巴结，边界清，淋巴门结构可见，血流信号不丰富。",
+      "structured": {
+        "exam_type": "superficial_ln_ultrasound",
+        "organs_examined": ["axillary"],
+        "axillary": [
+          {
+            "location": "左侧腋窝",
+            "size_mm": 8,
+            "boundary": "clear",
+            "hilum": "present",
+            "blood_flow": "不丰富"
+          }
+        ],
+        "impression_hints": ["左侧腋窝淋巴结可见。"]
+      },
+      "expected_impression": "左侧腋窝淋巴结可见。"
+    }
+  ]
+}

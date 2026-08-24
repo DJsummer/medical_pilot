@@ -1,0 +1,56 @@
+{
+  "version": "1.0",
+  "exam_type": "cardiac_ultrasound",
+  "description": "心脏超声 Gold Dataset",
+  "samples": [
+    {
+      "id": "car-001",
+      "asr_text": "左室内径约48毫米，室壁运动协调，各瓣膜形态活动正常，心包未见积液。",
+      "structured": {
+        "exam_type": "cardiac_ultrasound",
+        "organs_examined": ["lv", "valves", "pericardium"],
+        "lv": {
+          "internal_diameter_mm": 48,
+          "wall_motion": "normal",
+          "ef_percent": 65
+        },
+        "valves": {
+          "mitral": "形态活动正常",
+          "aortic": "形态活动正常",
+          "tricuspid": "形态活动正常"
+        },
+        "pericardium": { "description": "未见积液" },
+        "impression_hints": []
+      },
+      "expected_impression": "心脏超声未见明显异常。"
+    },
+    {
+      "id": "car-002",
+      "asr_text": "左室扩大，内径约58毫米，室壁运动减低，二尖瓣轻度反流。",
+      "structured": {
+        "exam_type": "cardiac_ultrasound",
+        "organs_examined": ["lv", "valves"],
+        "lv": {
+          "internal_diameter_mm": 58,
+          "wall_motion": "reduced",
+          "ef_percent": 45
+        },
+        "valves": { "mitral": "轻度反流" },
+        "impression_hints": ["左室扩大，室壁运动减低，二尖瓣轻度反流。"]
+      },
+      "expected_impression": "左室扩大，室壁运动减低，二尖瓣轻度反流。"
+    },
+    {
+      "id": "car-003",
+      "asr_text": "主动脉瓣增厚，开放受限，左房内径约42毫米。",
+      "structured": {
+        "exam_type": "cardiac_ultrasound",
+        "organs_examined": ["lv", "atria", "valves"],
+        "atria": { "left_atrium_mm": 42 },
+        "valves": { "aortic": "增厚，开放受限" },
+        "impression_hints": ["主动脉瓣病变，左房增大。"]
+      },
+      "expected_impression": "主动脉瓣病变，左房增大。"
+    }
+  ]
+}

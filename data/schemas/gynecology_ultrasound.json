@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "gynecology_ultrasound",
+  "title": "妇科超声结构化报告",
+  "type": "object",
+  "required": ["exam_type"],
+  "properties": {
+    "exam_type": { "type": "string", "const": "gynecology_ultrasound" },
+    "organs_examined": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["uterus", "ovary_left", "ovary_right", "adnexa"] }
+    },
+    "uterus": {
+      "type": "object",
+      "properties": {
+        "size": {
+          "type": "object",
+          "properties": {
+            "length_mm": { "type": "number" },
+            "width_mm": { "type": "number" },
+            "thickness_mm": { "type": "number" }
+          }
+        },
+        "position": { "type": "string", "enum": ["anteverted", "retroverted", "neutral"] },
+        "myometrium_echo": { "type": "string", "enum": ["normal", "increased", "decreased", "heterogeneous"] },
+        "endometrium_thickness_mm": { "type": "number" },
+        "endometrium_description": { "type": "string" },
+        "fibroids": { "type": "array", "items": { "$ref": "#/definitions/lesion" } }
+      }
+    },
+    "ovary_left": { "$ref": "#/definitions/ovary" },
+    "ovary_right": { "$ref": "#/definitions/ovary" },
+    "adnexa": { "type": "object", "properties": { "description": { "type": "string" } } },
+    "other_findings": { "type": "string" },
+    "impression_hints": { "type": "array", "items": { "type": "string" } },
+    "metadata": { "$ref": "#/definitions/metadata" }
+  },
+  "definitions": {
+    "ovary": {
+      "type": "object",
+      "properties": {
+        "size": {
+          "type": "object",
+          "properties": {
+            "length_mm": { "type": "number" },
+            "width_mm": { "type": "number" },
+            "thickness_mm": { "type": "number" }
+          }
+        },
+        "follicles": { "type": "string" },
+        "cysts": { "type": "array", "items": { "$ref": "#/definitions/lesion" } },
+        "solid_mass": { "$ref": "#/definitions/lesion" }
+      }
+    },
+    "lesion": {
+      "type": "object",
+      "properties": {
+        "location": { "type": "string" },
+        "size_mm": { "type": "number" },
+        "echo": { "type": "string", "enum": ["anechoic", "hypoechoic", "hyperechoic", "mixed", "isoechoic"] },
+        "boundary": { "type": "string", "enum": ["clear", "unclear"] },
+        "uncertainty": { "type": "boolean" }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "asr_text": { "type": "string" },
+        "uncertain_fields": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

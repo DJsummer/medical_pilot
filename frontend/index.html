@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>超声检查报告单 · AI 书写助手</title>
+  <link rel="stylesheet" href="/static/css/app.css">
+  <link rel="stylesheet" href="/static/css/chat.css">
+</head>
+<body>
+  <div id="app" v-cloak>
+    <div class="toolbar">
+      <span class="toolbar-title">AI B超报告书写助手</span>
+      <div class="toolbar-actions">
+        <select v-model="selectedExamType" class="toolbar-select" @change="onExamTypeChange">
+          <option v-for="t in examTypes" :key="t.id" :value="t.id">{{ t.label }}</option>
+        </select>
+        <select v-model="selectedReportId" class="toolbar-select" @change="loadReport">
+          <option value="">历史报告…</option>
+          <option v-for="r in savedReports" :key="r.id" :value="r.id">
+            {{ r.patient_name || '未命名' }} · {{ r.id.slice(0, 8) }}
+          </option>
+        </select>
+        <select v-model="selectedSampleId" class="toolbar-select" @change="loadSample">
+          <option value="">Gold 样本…</option>
+          <option v-for="s in goldSamples" :key="s.id" :value="s.id">{{ s.id }}</option>
+        </select>
+        <label class="toolbar-check">
+          <input type="checkbox" v-model="useLlm" :disabled="!llmEnabled"> LLM
+        </label>
+        <span class="toolbar-status" :class="llmEnabled ? 'on' : 'off'">
+          {{ llmEnabled ? 'AI就绪' : '演示' }}
+        </span>
+        <span class="toolbar-status" :class="asrSupportsServer ? 'on' : 'off'">
+          {{ asrSupportsServer ? 'ASR就绪' : '浏览器ASR' }}
+        </span>
+        <button class="toolbar-btn secondary" :disabled="!structured || loading" @click="regenerateReport">
+          重生成
+        </button>
+        <button class="toolbar-btn secondary" :disabled="saving" @click="saveDraft">
+          {{ saving ? '保存中…' : '保存' }}
+        </button>
+        <button class="toolbar-btn sign" :disabled="signing || reportStatus === 'signed'" @click="signReport">
+          {{ reportStatus === 'signed' ? '已签发' : (signing ? '签发中…' : '签发') }}
+        </button>
+        <button class="toolbar-btn primary" :disabled="loading" @click="runPipeline">
+          {{ loading ? '生成中…' : '生成报告' }}
+        </button>
+      </div>
+    </div>
+
+    <div v-if="error" class="alert-bar">{{ error }}</div>
+
+    <div class="layout">
+      <aside class="assist-panel">
+        <div class="assist-block chat-block">
+          <div class="assist-head chat-head">
+            <span>医生口述</span>
+            <select
+              v-if="asrSupportsServer && asrSupportsBrowser"
+              v-model="asrMode"
+              class="chat-mode-select"
+              @change="onAsrModeChange"
+            >
+              <option value="server">录音转写</option>
+              <option value="browser">实时听写</option>
+            </select>
+          </div>
+
+          <div class="chat-messages" ref="chatScrollRef">
+            <div v-if="utterances.length === 0 && !asrActive" class="dictation-empty">
+              点击下方麦克风，口述检查所见
+            </div>
+
+            <template v-for="u in utterances" :key="u.id">
+              <div class="dictation-item">
+                <div class="dictation-time">{{ u.time }}</div>
+                <div class="dictation-text">{{ u.text }}</div>
+              </div>
+            </template>
+
+            <div v-if="asrActive" class="ai-listening">
+              <div class="ai-listening-inner">
+                <div class="voice-wave" aria-hidden="true">
+                  <span></span><span></span><span></span><span></span><span></span>
+                </div>
+                <div class="ai-listening-label">{{ asrStatusText }}</div>
+                <div v-if="asrInterim" class="ai-listening-preview">{{ asrInterim }}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dictation-footer">
+            <button
+              type="button"
+              class="dictation-mic"
+              :class="{ active: asrActive, transcribing: asrStatus === 'transcribing' }"
+              :disabled="asrStatus === 'transcribing'"
+              @click="toggleAsr"
+            >
+              <span class="mic-ring" v-if="asrActive"></span>
+              <span class="mic-icon-lg">🎙</span>
+            </button>
+            <div class="dictation-mic-hint">{{ asrButtonLabel }}</div>
+          </div>
+        </div>
+        <div class="assist-block assist-tree-block">
+          <div class="assist-head">AI 结构化识别</div>
+          <div class="tree-wrap" v-if="structured">
+            <tree-node
+              :data="structured"
+              :path="''"
+              :highlight-path="highlightPath"
+              @select="onTreeSelect"
+            ></tree-node>
+          </div>
+          <div v-else class="assist-empty">生成后显示</div>
+        </div>
+        <div v-if="editLog.length" class="assist-block assist-log">
+          <div class="assist-head">修改记录</div>
+          <div v-for="(e, i) in editLog" :key="i" class="log-line">
+            {{ e.field }} · {{ e.time }}
+          </div>
+        </div>
+      </aside>
+
+      <main class="sheet-area">
+        <div class="us-sheet" :class="{ 'sheet-signed': reportStatus === 'signed' }">
+          <div class="sheet-header">
+            <div class="hospital-name">超声医学科</div>
+            <h1 class="sheet-title">超声检查报告单
+              <span v-if="reportStatus === 'signed'" class="signed-badge">已签发</span>
+            </h1>
+            <div class="sheet-no">报告编号：{{ reportNo }}</div>
+          </div>
+
+          <table class="info-table" cellspacing="0" cellpadding="0">
+            <tbody>
+              <tr>
+                <td class="lbl">姓名</td>
+                <td class="val"><input v-model="patient.name" class="cell-input" placeholder="—"></td>
+                <td class="lbl">性别</td>
+                <td class="val narrow">
+                  <select v-model="patient.sex" class="cell-select">
+                    <option value="">—</option>
+                    <option value="男">男</option>
+                    <option value="女">女</option>
+                  </select>
+                </td>
+                <td class="lbl">年龄</td>
+                <td class="val narrow"><input v-model="patient.age" class="cell-input" placeholder="—"></td>
+              </tr>
+              <tr>
+                <td class="lbl">门诊号</td>
+                <td class="val"><input v-model="patient.outpatient_no" class="cell-input" placeholder="—"></td>
+                <td class="lbl">住院号</td>
+                <td class="val"><input v-model="patient.inpatient_no" class="cell-input" placeholder="—"></td>
+                <td class="lbl">床号</td>
+                <td class="val narrow"><input v-model="patient.bed_no" class="cell-input" placeholder="—"></td>
+              </tr>
+              <tr>
+                <td class="lbl">申请科室</td>
+                <td class="val"><input v-model="patient.dept" class="cell-input" placeholder="—"></td>
+                <td class="lbl">检查部位</td>
+                <td class="val" colspan="3">
+                  <input v-model="examPart" class="cell-input full" readonly>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <table class="body-table" cellspacing="0" cellpadding="0">
+            <tbody>
+              <tr>
+                <td class="section-label" rowspan="1">超声所见</td>
+                <td class="section-body">
+                  <textarea
+                    v-model="findingsText"
+                    class="sheet-textarea findings"
+                    placeholder="（超声所见内容）"
+                    @input="recordEdit('findings_text', findingsText)"
+                  ></textarea>
+                </td>
+              </tr>
+              <tr>
+                <td class="section-label">超声提示</td>
+                <td class="section-body">
+                  <textarea
+                    v-model="impressionText"
+                    class="sheet-textarea impression"
+                    placeholder="（超声提示内容）"
+                    @input="recordEdit('impression_text', impressionText)"
+                  ></textarea>
+                  <div v-if="warnings.length" class="sheet-warnings">
+                    <div
+                      v-for="w in warnings"
+                      :key="w.id"
+                      class="sheet-warning"
+                      :class="w.severity"
+                    >※ {{ w.message }}</div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <table class="footer-table" cellspacing="0" cellpadding="0">
+            <tbody>
+              <tr>
+                <td class="lbl">检查医师</td>
+                <td class="val"><input v-model="signatures.examiner" class="cell-input" placeholder="—"></td>
+                <td class="lbl">记录医师</td>
+                <td class="val"><input v-model="signatures.recorder" class="cell-input" placeholder="—"></td>
+                <td class="lbl">审核医师</td>
+                <td class="val"><input v-model="signatures.reviewer" class="cell-input" placeholder="—"></td>
+              </tr>
+              <tr>
+                <td class="lbl">检查日期</td>
+                <td class="val" colspan="2"><input v-model="examDate" class="cell-input" readonly></td>
+                <td class="lbl">仪器型号</td>
+                <td class="val" colspan="2"><input v-model="deviceModel" class="cell-input" placeholder="—"></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="sheet-footnote" v-if="llmUsed">
+            本报告内容由 AI 辅助生成，须经医师审核后签发。
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <script src="/static/js/asr.js"></script>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

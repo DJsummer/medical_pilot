@@ -1,0 +1,100 @@
+{
+  "exam_type": "abdominal_ultrasound",
+  "version": "1.0",
+  "description": "腹部超声校验规则 — 数值异常、矛盾检测",
+  "rules": [
+    {
+      "id": "cbd_dilated",
+      "field": "bile_duct.common_bile_duct_mm",
+      "condition": "value > 6",
+      "severity": "warning",
+      "message": "胆总管内径 {value}mm，超过正常参考值（≤6mm），请确认"
+    },
+    {
+      "id": "cbd_critical",
+      "field": "bile_duct.common_bile_duct_mm",
+      "condition": "value > 10",
+      "severity": "error",
+      "message": "胆总管内径 {value}mm 明显扩张，请核实"
+    },
+    {
+      "id": "gallbladder_wall_thick",
+      "field": "gallbladder.wall.thickness_mm",
+      "condition": "value > 3",
+      "severity": "warning",
+      "message": "胆囊壁厚 {value}mm，超过正常（≤3mm），请确认"
+    },
+    {
+      "id": "gallbladder_stone_no_shadow",
+      "field": "gallbladder.lesions",
+      "condition": "any.type == 'stone' and acoustic_shadow == false",
+      "severity": "warning",
+      "message": "胆囊结石通常伴声影，当前标注无声影，请确认"
+    },
+    {
+      "id": "gallbladder_polyp_mobile",
+      "field": "gallbladder.lesions",
+      "condition": "any.type == 'polyp' and mobility == 'mobile'",
+      "severity": "warning",
+      "message": "息肉样病变通常不移动，当前标注可移动，请确认是否为结石"
+    },
+    {
+      "id": "kidney_left_size",
+      "field": "kidneys.left.size.length_mm",
+      "condition": "value < 90 or value > 120",
+      "severity": "info",
+      "message": "左肾长径 {value}mm，参考范围 90-120mm"
+    },
+    {
+      "id": "kidney_right_size",
+      "field": "kidneys.right.size.length_mm",
+      "condition": "value < 90 or value > 120",
+      "severity": "info",
+      "message": "右肾长径 {value}mm，参考范围 90-120mm"
+    },
+    {
+      "id": "kidney_size_symmetry",
+      "field": "kidneys",
+      "condition": "abs(left.size.length_mm - right.size.length_mm) > 15",
+      "severity": "warning",
+      "message": "双肾长径差异超过 15mm，请确认"
+    },
+    {
+      "id": "spleen_enlarged",
+      "field": "spleen.size.thickness_mm",
+      "condition": "value > 40",
+      "severity": "warning",
+      "message": "脾脏厚径 {value}mm，超过正常（≤40mm）"
+    },
+    {
+      "id": "liver_enlarged",
+      "field": "liver.size.status",
+      "condition": "value == 'enlarged'",
+      "severity": "info",
+      "message": "肝脏增大，请确认描述是否完整"
+    },
+    {
+      "id": "pancreas_duct_dilated",
+      "field": "pancreas.duct_mm",
+      "condition": "value > 2",
+      "severity": "warning",
+      "message": "主胰管内径 {value}mm，超过正常（≤2mm）"
+    },
+    {
+      "id": "uncertainty_highlight",
+      "field": "metadata.uncertain_fields",
+      "condition": "length > 0",
+      "severity": "warning",
+      "message": "存在不确定字段，请医生确认：{fields}"
+    }
+  ],
+  "reference_ranges": {
+    "bile_duct.common_bile_duct_mm": { "max": 6, "unit": "mm", "label": "胆总管" },
+    "gallbladder.wall.thickness_mm": { "max": 3, "unit": "mm", "label": "胆囊壁" },
+    "gallbladder.size.length_mm": { "max": 80, "unit": "mm", "label": "胆囊长径" },
+    "spleen.size.thickness_mm": { "max": 40, "unit": "mm", "label": "脾脏厚径" },
+    "kidneys.left.size.length_mm": { "min": 90, "max": 120, "unit": "mm", "label": "左肾长径" },
+    "kidneys.right.size.length_mm": { "min": 90, "max": 120, "unit": "mm", "label": "右肾长径" },
+    "pancreas.duct_mm": { "max": 2, "unit": "mm", "label": "主胰管" }
+  }
+}

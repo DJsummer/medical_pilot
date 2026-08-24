@@ -1,0 +1,12 @@
+services:
+  medical-pilot:
+    build: .
+    container_name: medical-pilot
+    ports:
+      - "${MEDICAL_PORT:-8900}:8900"
+    env_file:
+      - .env
+    volumes:
+      - ./data/reports:/app/data/reports
+      - ./data/logs:/app/data/logs
+    restart: unless-stopped

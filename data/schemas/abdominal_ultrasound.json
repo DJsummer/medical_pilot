@@ -1,0 +1,228 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "abdominal_ultrasound",
+  "title": "腹部超声结构化报告",
+  "description": "AI B超报告书写助手 — 腹部超声 Schema",
+  "type": "object",
+  "required": ["exam_type"],
+  "properties": {
+    "exam_type": {
+      "type": "string",
+      "const": "abdominal_ultrasound"
+    },
+    "organs_examined": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["liver", "gallbladder", "bile_duct", "pancreas", "spleen", "kidney_left", "kidney_right", "bladder"]
+      }
+    },
+    "liver": {
+      "type": "object",
+      "properties": {
+        "size": {
+          "type": "object",
+          "properties": {
+            "status": { "type": "string", "enum": ["normal", "enlarged", "shrunk"] },
+            "description": { "type": "string" }
+          }
+        },
+        "morphology": { "type": "string", "enum": ["normal", "abnormal"] },
+        "morphology_description": { "type": "string" },
+        "capsule": { "type": "string", "enum": ["smooth", "rough", "irregular"] },
+        "parenchyma_echo": {
+          "type": "string",
+          "enum": ["normal", "increased", "decreased", "heterogeneous"]
+        },
+        "parenchyma_description": { "type": "string" },
+        "vessels": {
+          "type": "object",
+          "properties": {
+            "portal_vein": { "type": "string" },
+            "hepatic_veins": { "type": "string" }
+          }
+        },
+        "lesions": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/lesion" }
+        }
+      }
+    },
+    "gallbladder": {
+      "type": "object",
+      "properties": {
+        "size": {
+          "type": "object",
+          "properties": {
+            "status": { "type": "string", "enum": ["normal", "enlarged", "shrunk"] },
+            "length_mm": { "type": "number", "minimum": 0 }
+          }
+        },
+        "wall": {
+          "type": "object",
+          "properties": {
+            "status": { "type": "string", "enum": ["normal", "thickened"] },
+            "thickness_mm": { "type": "number", "minimum": 0 },
+            "description": { "type": "string" }
+          }
+        },
+        "cavity": {
+          "type": "object",
+          "properties": {
+            "description": { "type": "string" }
+          }
+        },
+        "lesions": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/gallbladder_lesion" }
+        }
+      }
+    },
+    "bile_duct": {
+      "type": "object",
+      "properties": {
+        "common_bile_duct_mm": { "type": "number", "minimum": 0 },
+        "common_bile_duct_status": { "type": "string", "enum": ["normal", "dilated"] },
+        "hepatic_duct": { "type": "string" },
+        "description": { "type": "string" }
+      }
+    },
+    "pancreas": {
+      "type": "object",
+      "properties": {
+        "visibility": { "type": "string", "enum": ["clear", "partial", "obscured"] },
+        "size": { "type": "string", "enum": ["normal", "enlarged", "atrophic"] },
+        "echo": {
+          "type": "string",
+          "enum": ["normal", "increased", "decreased", "heterogeneous"]
+        },
+        "duct_mm": { "type": "number", "minimum": 0 },
+        "lesions": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/lesion" }
+        }
+      }
+    },
+    "spleen": {
+      "type": "object",
+      "properties": {
+        "size": {
+          "type": "object",
+          "properties": {
+            "thickness_mm": { "type": "number", "minimum": 0 },
+            "status": { "type": "string", "enum": ["normal", "enlarged"] }
+          }
+        },
+        "echo": {
+          "type": "string",
+          "enum": ["normal", "increased", "decreased", "heterogeneous"]
+        },
+        "lesions": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/lesion" }
+        }
+      }
+    },
+    "kidneys": {
+      "type": "object",
+      "properties": {
+        "left": { "$ref": "#/definitions/kidney" },
+        "right": { "$ref": "#/definitions/kidney" }
+      }
+    },
+    "bladder": {
+      "type": "object",
+      "properties": {
+        "filling": { "type": "string", "enum": ["good", "poor", "empty"] },
+        "wall": { "type": "string", "enum": ["smooth", "rough", "thickened"] },
+        "wall_thickness_mm": { "type": "number", "minimum": 0 },
+        "cavity": { "type": "string" },
+        "lesions": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/lesion" }
+        }
+      }
+    },
+    "free_fluid": {
+      "type": "object",
+      "properties": {
+        "present": { "type": "boolean" },
+        "description": { "type": "string" }
+      }
+    },
+    "other_findings": { "type": "string" },
+    "impression_hints": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "提示性短语，非诊断结论"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "asr_text": { "type": "string" },
+        "uncertain_fields": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "lesion": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["cyst", "solid", "calcification", "hemangioma", "stone", "polyp", "other"]
+        },
+        "location": { "type": "string" },
+        "size_mm": { "type": "number", "minimum": 0 },
+        "echo": {
+          "type": "string",
+          "enum": ["anechoic", "hypoechoic", "hyperechoic", "mixed", "isoechoic"]
+        },
+        "boundary": { "type": "string", "enum": ["clear", "unclear"] },
+        "shape": { "type": "string", "enum": ["round", "oval", "irregular"] },
+        "acoustic_shadow": { "type": "boolean" },
+        "posterior_enhancement": { "type": "boolean" },
+        "uncertainty": { "type": "boolean" }
+      }
+    },
+    "gallbladder_lesion": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "enum": ["stone", "polyp", "sludge", "other"] },
+        "size_mm": { "type": "number", "minimum": 0 },
+        "echo": { "type": "string", "enum": ["hyperechoic", "hypoechoic", "mixed"] },
+        "mobility": { "type": "string", "enum": ["mobile", "immobile", "not_tested"] },
+        "acoustic_shadow": { "type": "boolean" },
+        "attachment": { "type": "string", "enum": ["intraluminal", "wall_attached"] },
+        "count": { "type": "string", "enum": ["single", "multiple"] },
+        "uncertainty": { "type": "boolean" }
+      }
+    },
+    "kidney": {
+      "type": "object",
+      "properties": {
+        "size": {
+          "type": "object",
+          "properties": {
+            "length_mm": { "type": "number", "minimum": 0 },
+            "width_mm": { "type": "number", "minimum": 0 }
+          }
+        },
+        "morphology": { "type": "string", "enum": ["normal", "abnormal"] },
+        "cortex_echo": {
+          "type": "string",
+          "enum": ["normal", "increased", "decreased"]
+        },
+        "cortex_thickness": { "type": "string", "enum": ["normal", "thinned"] },
+        "collecting_system": { "type": "string" },
+        "lesions": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/lesion" }
+        }
+      }
+    }
+  }
+}

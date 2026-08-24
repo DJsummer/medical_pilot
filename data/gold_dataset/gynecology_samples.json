@@ -1,0 +1,67 @@
+{
+  "version": "1.0",
+  "exam_type": "gynecology_ultrasound",
+  "description": "妇科超声 Gold Dataset",
+  "samples": [
+    {
+      "id": "gyn-001",
+      "asr_text": "子宫大小形态正常，肌层回声均匀，内膜线居中，厚约8毫米。双侧卵巢大小形态正常，未见明显囊性包块。",
+      "structured": {
+        "exam_type": "gynecology_ultrasound",
+        "organs_examined": ["uterus", "ovary_left", "ovary_right"],
+        "uterus": {
+          "position": "anteverted",
+          "myometrium_echo": "normal",
+          "endometrium_thickness_mm": 8,
+          "endometrium_description": "内膜线居中"
+        },
+        "ovary_left": { "follicles": "可见小卵泡" },
+        "ovary_right": { "follicles": "可见小卵泡" },
+        "impression_hints": []
+      },
+      "expected_impression": "妇科超声未见明显异常。"
+    },
+    {
+      "id": "gyn-002",
+      "asr_text": "子宫肌层可见约15毫米低回声团，边界清。内膜厚约6毫米。",
+      "structured": {
+        "exam_type": "gynecology_ultrasound",
+        "organs_examined": ["uterus"],
+        "uterus": {
+          "myometrium_echo": "heterogeneous",
+          "endometrium_thickness_mm": 6,
+          "fibroids": [
+            {
+              "location": "肌层",
+              "size_mm": 15,
+              "echo": "hypoechoic",
+              "boundary": "clear"
+            }
+          ]
+        },
+        "impression_hints": ["子宫肌层低回声团，考虑肌瘤可能。"]
+      },
+      "expected_impression": "子宫肌层低回声团，考虑肌瘤可能。"
+    },
+    {
+      "id": "gyn-003",
+      "asr_text": "右侧卵巢可见约25毫米囊性包块，边界清，后方回声增强。",
+      "structured": {
+        "exam_type": "gynecology_ultrasound",
+        "organs_examined": ["ovary_right"],
+        "ovary_right": {
+          "cysts": [
+            {
+              "location": "右侧卵巢",
+              "size_mm": 25,
+              "echo": "anechoic",
+              "boundary": "clear"
+            }
+          ]
+        },
+        "impression_hints": ["右侧卵巢囊性包块。"]
+      },
+      "expected_impression": "右侧卵巢囊性包块。"
+    }
+  ]
+}

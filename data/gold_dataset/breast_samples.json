@@ -1,0 +1,62 @@
+{
+  "version": "1.0",
+  "exam_type": "breast_ultrasound",
+  "description": "乳腺超声 Gold Dataset",
+  "samples": [
+    {
+      "id": "bre-001",
+      "asr_text": "双侧乳腺腺体回声均匀，导管未见扩张，未见明显占位。",
+      "structured": {
+        "exam_type": "breast_ultrasound",
+        "organs_examined": ["breast_right", "breast_left"],
+        "breast_right": { "gland_echo": "normal", "duct": "未见扩张", "nodules": [] },
+        "breast_left": { "gland_echo": "normal", "duct": "未见扩张", "nodules": [] },
+        "impression_hints": []
+      },
+      "expected_impression": "双侧乳腺超声未见明显异常。"
+    },
+    {
+      "id": "bre-002",
+      "asr_text": "右侧乳腺外上象限可见约12毫米低回声结节，边界清。",
+      "structured": {
+        "exam_type": "breast_ultrasound",
+        "organs_examined": ["breast_right"],
+        "breast_right": {
+          "gland_echo": "normal",
+          "nodules": [
+            {
+              "quadrant": "外上象限",
+              "location": "右侧乳腺",
+              "size_mm": 12,
+              "echo": "hypoechoic",
+              "boundary": "clear"
+            }
+          ]
+        },
+        "impression_hints": ["右侧乳腺低回声结节，建议进一步评估。"]
+      },
+      "expected_impression": "右侧乳腺低回声结节，建议进一步评估。"
+    },
+    {
+      "id": "bre-003",
+      "asr_text": "左侧乳腺可见约6毫米无回声结节，边界清，后方回声增强。",
+      "structured": {
+        "exam_type": "breast_ultrasound",
+        "organs_examined": ["breast_left"],
+        "breast_left": {
+          "nodules": [
+            {
+              "location": "左侧乳腺",
+              "size_mm": 6,
+              "echo": "anechoic",
+              "boundary": "clear",
+              "posterior_enhancement": true
+            }
+          ]
+        },
+        "impression_hints": ["左侧乳腺囊性结节。"]
+      },
+      "expected_impression": "左侧乳腺囊性结节。"
+    }
+  ]
+}

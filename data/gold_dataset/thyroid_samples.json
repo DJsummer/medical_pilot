@@ -1,0 +1,62 @@
+{
+  "version": "1.0",
+  "exam_type": "thyroid_ultrasound",
+  "description": "甲状腺超声 Gold Dataset",
+  "samples": [
+    {
+      "id": "thy-001",
+      "asr_text": "甲状腺双侧大小形态正常，实质回声均匀，未见明显结节。",
+      "structured": {
+        "exam_type": "thyroid_ultrasound",
+        "organs_examined": ["thyroid_right", "thyroid_left"],
+        "thyroid_right": { "echo": "normal", "nodules": [] },
+        "thyroid_left": { "echo": "normal", "nodules": [] },
+        "impression_hints": []
+      },
+      "expected_impression": "甲状腺超声未见明显异常。"
+    },
+    {
+      "id": "thy-002",
+      "asr_text": "甲状腺右叶可见约8毫米低回声结节，边界清，未见钙化。",
+      "structured": {
+        "exam_type": "thyroid_ultrasound",
+        "organs_examined": ["thyroid_right"],
+        "thyroid_right": {
+          "echo": "normal",
+          "nodules": [
+            {
+              "location": "右叶",
+              "size_mm": 8,
+              "echo": "hypoechoic",
+              "boundary": "clear",
+              "calcification": false
+            }
+          ]
+        },
+        "impression_hints": ["甲状腺右叶低回声结节，建议随访。"]
+      },
+      "expected_impression": "甲状腺右叶低回声结节，建议随访。"
+    },
+    {
+      "id": "thy-003",
+      "asr_text": "甲状腺左叶可见约5毫米囊性结节，边界清，后方回声增强。峡部厚约3毫米。",
+      "structured": {
+        "exam_type": "thyroid_ultrasound",
+        "organs_examined": ["thyroid_left", "isthmus"],
+        "thyroid_left": {
+          "nodules": [
+            {
+              "location": "左叶",
+              "size_mm": 5,
+              "echo": "anechoic",
+              "boundary": "clear"
+            }
+          ]
+        },
+        "isthmus": { "thickness_mm": 3 },
+        "impression_hints": ["甲状腺左叶囊性结节。"]
+      },
+      "expected_impression": "甲状腺左叶囊性结节。"
+    }
+  ]
+}

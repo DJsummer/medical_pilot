@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "vascular_ultrasound",
+  "title": "血管超声结构化报告",
+  "type": "object",
+  "required": ["exam_type"],
+  "properties": {
+    "exam_type": { "type": "string", "const": "vascular_ultrasound" },
+    "organs_examined": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["carotid_right", "carotid_left", "vertebral", "lower_limb"] }
+    },
+    "carotid_right": { "$ref": "#/definitions/carotid" },
+    "carotid_left": { "$ref": "#/definitions/carotid" },
+    "vertebral": { "type": "object", "properties": { "description": { "type": "string" } } },
+    "lower_limb": { "type": "object", "properties": { "description": { "type": "string" } } },
+    "other_findings": { "type": "string" },
+    "impression_hints": { "type": "array", "items": { "type": "string" } },
+    "metadata": { "$ref": "#/definitions/metadata" }
+  },
+  "definitions": {
+    "carotid": {
+      "type": "object",
+      "properties": {
+        "imt_mm": { "type": "number" },
+        "stenosis_percent": { "type": "number" },
+        "plaques": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "location": { "type": "string" },
+              "size_mm": { "type": "number" },
+              "echo": { "type": "string" },
+              "surface": { "type": "string", "enum": ["smooth", "irregular"] }
+            }
+          }
+        },
+        "description": { "type": "string" }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "asr_text": { "type": "string" },
+        "uncertain_fields": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

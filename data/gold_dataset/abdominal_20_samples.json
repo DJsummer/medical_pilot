@@ -1,0 +1,462 @@
+{
+  "version": "1.0",
+  "exam_type": "abdominal_ultrasound",
+  "description": "医生口述 → 结构化 Schema Gold Dataset（腹部超声 20 条）",
+  "samples": [
+    {
+      "id": "abd-001",
+      "asr_text": "肝脏大小形态正常，包膜光滑，肝实质回声稍增强，胆囊大小正常，壁不厚，胆囊内见一个六毫米强回声，后方没有声影，改变体位不移动。",
+      "structured": {
+        "exam_type": "abdominal_ultrasound",
+        "organs_examined": ["liver", "gallbladder"],
+        "liver": {
+          "size": { "status": "normal" },
+          "morphology": "normal",
+          "capsule": "smooth",
+          "parenchyma_echo": "increased",
+          "vessels": {}
+        },
+        "gallbladder": {
+          "size": { "status": "normal" },
+          "wall": { "status": "normal" },
+          "lesions": [
+            {
+              "type": "polyp",
+              "size_mm": 6,
+              "echo": "hyperechoic",
+              "mobility": "immobile",
+              "acoustic_shadow": false,
+              "attachment": "intraluminal",
+              "count": "single"
+            }
+          ]
+        },
+        "impression_hints": ["胆囊息肉样病变", "肝实质回声稍增强"],
+        "metadata": { "asr_text": "肝脏大小形态正常，包膜光滑，肝实质回声稍增强，胆囊大小正常，壁不厚，胆囊内见一个六毫米强回声，后方没有声影，改变体位不移动。" }
+      },
+      "expected_findings": "肝脏大小、形态正常，包膜光滑，肝实质回声稍增强。胆囊大小正常，壁不厚，腔内可见约6mm强回声，后方未见明显声影，改变体位不移动。",
+      "expected_impression": "胆囊息肉样病变。\n肝实质回声稍增强。"
+    },
+    {
+      "id": "abd-002",
+      "asr_text": "肝脏未见明显异常，胆囊壁增厚约五毫米，腔内未见结石，胆总管内径约八毫米。",
+      "structured": {
+        "exam_type": "abdominal_ultrasound",
+        "organs_examined": ["liver", "gallbladder", "bile_duct"],
+        "liver": {
+          "size": { "status": "normal" },
+          "morphology": "normal",
+          "capsule": "smooth",
+          "parenchyma_echo": "normal"
+        },
+        "gallbladder": {
+          "wall": { "status": "thickened", "thickness_mm": 5 },
+          "cavity": { "description": "未见结石" }
+        },
+        "bile_duct": {
+          "common_bile_duct_mm": 8,
+          "common_bile_duct_status": "dilated"
+        },
+        "impression_hints": ["胆囊壁增厚", "胆总管扩张"],
+        "metadata": { "asr_text": "肝脏未见明显异常，胆囊壁增厚约五毫米，腔内未见结石，胆总管内径约八毫米。" }
+      },
+      "expected_findings": "肝脏大小、形态正常，包膜光滑，肝实质回声均匀。胆囊壁增厚约5mm，腔内未见结石。胆总管内径约8mm。",
+      "expected_impression": "胆囊壁增厚。\n胆总管扩张。"
+    },
+    {
+      "id": "abd-003",
+      "asr_text": "右肾长径一百一十毫米，左肾长径一百零五毫米，双肾形态正常，皮髓质分界清，集合系统未见分离。",
+      "structured": {
+        "exam_type": "abdominal_ultrasound",
+        "organs_examined": ["kidney_left", "kidney_right"],
+        "kidneys": {
+          "left": {
+            "size": { "length_mm": 105 },
+            "morphology": "normal",
+            "cortex_echo": "normal",
+            "collecting_system": "未见分离"
+          },
+          "right": {
+            "size": { "length_mm": 110 },
+            "morphology": "normal",
+            "cortex_echo": "normal",
+            "collecting_system": "未见分离"
+          }
+        },
+        "impression_hints": [],
+        "metadata": { "asr_text": "右肾长径一百一十毫米，左肾长径一百零五毫米，双肾形态正常，皮髓质分界清，集合系统未见分离。" }
+      },
+      "expected_findings": "左肾长径约105mm，右肾长径约110mm，双肾形态正常，皮髓质分界清，集合系统未见分离。",
+      "expected_impression": "双肾未见明显异常。"
+    },
+    {
+      "id": "abd-004",
+      "asr_text": "肝脏右叶见一个三十毫米低回声结节，边界尚清，后方回声增强，胆囊胰腺脾脏未见明显异常。",
+      "structured": {
+        "exam_type": "abdominal_ultrasound",
+        "organs_examined": ["liver", "gallbladder", "pancreas", "spleen"],
+        "liver": {
+          "size": { "status": "normal" },
+          "morphology": "normal",
+          "lesions": [
+            {
+              "type": "solid",
+              "location": "右叶",
+              "size_mm": 30,
+              "echo": "hypoechoic",
+              "boundary": "clear",
+              "posterior_enhancement": true
+            }
+          ]
+        },
+        "gallbladder": { "size": { "status": "normal" } },
+        "pancreas": { "visibility": "clear", "size": "normal", "echo": "normal" },
+        "spleen": { "size": { "status": "normal" }, "echo": "normal" },
+        "impression_hints": ["肝右叶实性占位"],
+        "metadata": { "asr_text": "肝脏右叶见一个三十毫米低回声结节，边界尚清，后方回声增强，胆囊胰腺脾脏未见明显异常。" }
+      },
+      "expected_findings": "肝脏右叶可见约30mm低回声结节，边界尚清，后方回声增强。胆囊、胰腺、脾脏未见明显异常。",
+      "expected_impression": "肝右叶实性占位，建议进一步检查。"
+    },
+    {
+      "id": "abd-005",
+      "asr_text": "胆囊内见多个强回声，最大约十二毫米，后方伴声影，改变体位可移动，考虑结石。",
+      "structured": {
+        "exam_type": "abdominal_ultrasound",
+        "organs_examined": ["gallbladder"],
+        "gallbladder": {
+          "lesions": [
+            {
+              "type": "stone",
+              "size_mm": 12,
+              "echo": "hyperechoic",
+              "mobility": "mobile",
+              "acoustic_shadow": true,
+              "count": "multiple"
+            }
+          ]
+        },
+        "impression_hints": ["胆囊多发结石"],
+        "metadata": { "asr_text": "胆囊内见多个强回声，最大约十二毫米，后方伴声影，改变体位可移动，考虑结石。" }
+      },
+      "expected_findings": "胆囊内可见多个强回声，最大约12mm，后方伴声影，改变体位可移动。",
+      "expected_impression": "胆囊多发结石。"
+    },
+    {
+      "id": "abd-006",
+      "asr_text": "脾脏厚径四十五毫米，回声均匀，肝脏胆囊胰腺双肾未见明显异常。",
+      "structured": {
+        "exam_type": "abdominal_ultrasound",
+        "organs_examined": ["liver", "gallbladder", "pancreas", "spleen", "kidney_left", "kidney_right"],
+        "liver": { "size": { "status": "normal" }, "parenchyma_echo": "normal" },
+        "gallbladder": { "size": { "status": "normal" } },
+        "pancreas": { "visibility": "clear", "size": "normal" },
+        "spleen": {
+          "size": { "thickness_mm": 45, "status": "enlarged" },
+          "echo": "normal"
+        },
+        "kidneys": {
+          "left": { "morphology": "normal" },
+          "right": { "morphology": "normal" }
+        },
+        "impression_hints": ["脾脏增大"],
+        "metadata": { "asr_text": "脾脏厚径四十五毫米，回声均匀，肝脏胆囊胰腺双肾未见明显异常。" }
+      },
+      "expected_findings": "脾脏厚径约45mm，回声均匀。肝脏、胆囊、胰腺、双肾未见明显异常。",
+      "expected_impression": "脾脏增大。"
+    },
+    {
+      "id": "abd-007",
+      "asr_text": "左肾上极见一个十五毫米无回声，边界清，后方回声增强，右肾未见明显异常。",
+      "structured": {
+        "exam_type": "abdominal_ultrasound",
+        "organs_examined": ["kidney_left", "kidney_right"],
+        "kidneys": {
+          "left": {
+            "lesions": [
+              {
+                "type": "cyst",
+                "location": "上极",
+                "size_mm": 15,
+                "echo": "anechoic",
+                "boundary": "clear",
+                "posterior_enhancement": true
+              }
+            ]
+          },
+          "right": { "morphology": "normal" }
+        },
+        "impression_hints": ["左肾囊肿"],
+        "metadata": { "asr_text": "左肾上极见一个十五毫米无回声，边界清，后方回声增强，右肾未见明显异常。" }
+      },
+      "expected_findings": "左肾上极可见约15mm无回声，边界清，后方回声增强。右肾未见明显异常。",
+      "expected_impression": "左肾囊肿。"
+    },
+    {
+      "id": "abd-008",
+      "asr_text": "胰腺显示不清，余脏器未见明显异常。",
+      "structured": {
+        "exam_type": "abdominal_ultrasound",
+        "organs_examined": ["pancreas"],
+        "pancreas": { "visibility": "obscured" },
+        "impression_hints": [],
+        "metadata": { "asr_text": "胰腺显示不清，余脏器未见明显异常。" }
+      },
+      "expected_findings": "胰腺显示不清。余脏器未见明显异常。",
+      "expected_impression": "胰腺显示不清。"
+    },
+    {
+      "id": "abd-009",
+      "asr_text": "膀胱充盈尚可，壁光滑，腔内未见异常回声。",
+      "structured": {
+        "exam_type": "abdominal_ultrasound",
+        "organs_examined": ["bladder"],
+        "bladder": {
+          "filling": "good",
+          "wall": "smooth",
+          "cavity": "未见异常回声"
+        },
+        "impression_hints": [],
+        "metadata": { "asr_text": "膀胱充盈尚可，壁光滑，腔内未见异常回声。" }
+      },
+      "expected_findings": "膀胱充盈尚可，壁光滑，腔内未见异常回声。",
+      "expected_impression": "膀胱未见明显异常。"
+    },
+    {
+      "id": "abd-010",
+      "asr_text": "肝实质回声减低，呈不均匀改变，门静脉内径约十四毫米，胆囊壁毛糙，厚约四毫米。",
+      "structured": {
+        "exam_type": "abdominal_ultrasound",
+        "organs_examined": ["liver", "gallbladder"],
+        "liver": {
+          "parenchyma_echo": "decreased",
+          "parenchyma_description": "不均匀改变",
+          "vessels": { "portal_vein": "内径约14mm" }
+        },
+        "gallbladder": {
+          "wall": { "status": "thickened", "thickness_mm": 4, "description": "毛糙" }
+        },
+        "impression_hints": ["肝实质回声减低", "胆囊壁增厚毛糙"],
+        "metadata": { "asr_text": "肝实质回声减低，呈不均匀改变，门静脉内径约十四毫米，胆囊壁毛糙，厚约四毫米。" }
+      },
+      "expected_findings": "肝实质回声减低，呈不均匀改变，门静脉内径约14mm。胆囊壁毛糙，厚约4mm。",
+      "expected_impression": "肝实质回声减低。\n胆囊壁增厚毛糙。"
+    },
+    {
+      "id": "abd-011",
+      "asr_text": "右肾中下极见强回声约八毫米，后方伴声影，考虑结石。",
+      "structured": {
+        "exam_type": "abdominal_ultrasound",
+        "organs_examined": ["kidney_right"],
+        "kidneys": {
+          "right": {
+            "lesions": [
+              {
+                "type": "stone",
+                "location": "中下极",
+                "size_mm": 8,
+                "echo": "hyperechoic",
+                "acoustic_shadow": true
+              }
+            ]
+          }
+        },
+        "impression_hints": ["右肾结石"],
+        "metadata": { "asr_text": "右肾中下极见强回声约八毫米，后方伴声影，考虑结石。" }
+      },
+      "expected_findings": "右肾中下极可见强回声约8mm，后方伴声影。",
+      "expected_impression": "右肾结石。"
+    },
+    {
+      "id": "abd-012",
+      "asr_text": "腹腔未见游离积液，肝脏胆囊胆管胰腺脾脏双肾未见明显异常。",
+      "structured": {
+        "exam_type": "abdominal_ultrasound",
+        "organs_examined": ["liver", "gallbladder", "bile_duct", "pancreas", "spleen", "kidney_left", "kidney_right"],
+        "liver": { "size": { "status": "normal" }, "parenchyma_echo": "normal" },
+        "gallbladder": { "size": { "status": "normal" } },
+        "bile_duct": { "common_bile_duct_status": "normal" },
+        "pancreas": { "visibility": "clear", "size": "normal" },
+        "spleen": { "size": { "status": "normal" } },
+        "kidneys": { "left": { "morphology": "normal" }, "right": { "morphology": "normal" } },
+        "free_fluid": { "present": false },
+        "impression_hints": [],
+        "metadata": { "asr_text": "腹腔未见游离积液，肝脏胆囊胆管胰腺脾脏双肾未见明显异常。" }
+      },
+      "expected_findings": "肝脏、胆囊、胆管、胰腺、脾脏、双肾未见明显异常。腹腔未见游离积液。",
+      "expected_impression": "腹部超声未见明显异常。"
+    },
+    {
+      "id": "abd-013",
+      "asr_text": "肝左叶见一个二十毫米高回声团，边界清，考虑血管瘤可能。",
+      "structured": {
+        "exam_type": "abdominal_ultrasound",
+        "organs_examined": ["liver"],
+        "liver": {
+          "lesions": [
+            {
+              "type": "hemangioma",
+              "location": "左叶",
+              "size_mm": 20,
+              "echo": "hyperechoic",
+              "boundary": "clear",
+              "uncertainty": true
+            }
+          ]
+        },
+        "impression_hints": ["肝左叶高回声团，血管瘤可能"],
+        "metadata": {
+          "asr_text": "肝左叶见一个二十毫米高回声团，边界清，考虑血管瘤可能。",
+          "uncertain_fields": ["liver.lesions[0].type"]
+        }
+      },
+      "expected_findings": "肝左叶可见约20mm高回声团，边界清。",
+      "expected_impression": "肝左叶高回声团，血管瘤可能。"
+    },
+    {
+      "id": "abd-014",
+      "asr_text": "胆囊里有个小东西，大概四毫米左右，不动，也没有声影。",
+      "structured": {
+        "exam_type": "abdominal_ultrasound",
+        "organs_examined": ["gallbladder"],
+        "gallbladder": {
+          "lesions": [
+            {
+              "type": "polyp",
+              "size_mm": 4,
+              "mobility": "immobile",
+              "acoustic_shadow": false,
+              "count": "single",
+              "uncertainty": true
+            }
+          ]
+        },
+        "impression_hints": ["胆囊息肉样病变"],
+        "metadata": {
+          "asr_text": "胆囊里有个小东西，大概四毫米左右，不动，也没有声影。",
+          "uncertain_fields": ["gallbladder.lesions[0].size_mm"]
+        }
+      },
+      "expected_findings": "胆囊腔内可见约4mm病灶，改变体位不移动，后方未见明显声影。",
+      "expected_impression": "胆囊息肉样病变。"
+    },
+    {
+      "id": "abd-015",
+      "asr_text": "胰腺体尾部回声增强，主胰管未见扩张，肝脏胆囊脾脏双肾未见明显异常。",
+      "structured": {
+        "exam_type": "abdominal_ultrasound",
+        "organs_examined": ["liver", "gallbladder", "pancreas", "spleen", "kidney_left", "kidney_right"],
+        "liver": { "parenchyma_echo": "normal" },
+        "gallbladder": { "size": { "status": "normal" } },
+        "pancreas": {
+          "visibility": "clear",
+          "echo": "increased",
+          "parenchyma_description": "体尾部回声增强",
+          "duct_mm": 0
+        },
+        "spleen": { "size": { "status": "normal" } },
+        "kidneys": { "left": { "morphology": "normal" }, "right": { "morphology": "normal" } },
+        "impression_hints": ["胰腺体尾部回声增强"],
+        "metadata": { "asr_text": "胰腺体尾部回声增强，主胰管未见扩张，肝脏胆囊脾脏双肾未见明显异常。" }
+      },
+      "expected_findings": "胰腺体尾部回声增强，主胰管未见扩张。肝脏、胆囊、脾脏、双肾未见明显异常。",
+      "expected_impression": "胰腺体尾部回声增强。"
+    },
+    {
+      "id": "abd-016",
+      "asr_text": "双肾集合系统分离，左肾约八毫米，右肾约六毫米，考虑肾盂积水。",
+      "structured": {
+        "exam_type": "abdominal_ultrasound",
+        "organs_examined": ["kidney_left", "kidney_right"],
+        "kidneys": {
+          "left": { "collecting_system": "分离约8mm" },
+          "right": { "collecting_system": "分离约6mm" }
+        },
+        "impression_hints": ["双肾盂积水"],
+        "metadata": { "asr_text": "双肾集合系统分离，左肾约八毫米，右肾约六毫米，考虑肾盂积水。" }
+      },
+      "expected_findings": "左肾集合系统分离约8mm，右肾集合系统分离约6mm。",
+      "expected_impression": "双肾盂积水。"
+    },
+    {
+      "id": "abd-017",
+      "asr_text": "肝内外胆管未见扩张，胆总管内径约五毫米，胆囊未见结石。",
+      "structured": {
+        "exam_type": "abdominal_ultrasound",
+        "organs_examined": ["gallbladder", "bile_duct"],
+        "gallbladder": { "cavity": { "description": "未见结石" } },
+        "bile_duct": {
+          "common_bile_duct_mm": 5,
+          "common_bile_duct_status": "normal",
+          "hepatic_duct": "未见扩张"
+        },
+        "impression_hints": [],
+        "metadata": { "asr_text": "肝内外胆管未见扩张，胆总管内径约五毫米，胆囊未见结石。" }
+      },
+      "expected_findings": "肝内外胆管未见扩张，胆总管内径约5mm。胆囊未见结石。",
+      "expected_impression": "胆管及胆囊未见明显异常。"
+    },
+    {
+      "id": "abd-018",
+      "asr_text": "膀胱壁增厚约六毫米，腔内未见异常回声，前列腺增大。",
+      "structured": {
+        "exam_type": "abdominal_ultrasound",
+        "organs_examined": ["bladder"],
+        "bladder": {
+          "filling": "good",
+          "wall": "thickened",
+          "wall_thickness_mm": 6,
+          "cavity": "未见异常回声"
+        },
+        "other_findings": "前列腺增大",
+        "impression_hints": ["膀胱壁增厚", "前列腺增大"],
+        "metadata": { "asr_text": "膀胱壁增厚约六毫米，腔内未见异常回声，前列腺增大。" }
+      },
+      "expected_findings": "膀胱壁增厚约6mm，腔内未见异常回声。前列腺增大。",
+      "expected_impression": "膀胱壁增厚。\n前列腺增大。"
+    },
+    {
+      "id": "abd-019",
+      "asr_text": "肝脏缩小，实质回声增粗增强，表面不光滑，门静脉内径正常，脾脏厚径四十二毫米。",
+      "structured": {
+        "exam_type": "abdominal_ultrasound",
+        "organs_examined": ["liver", "spleen"],
+        "liver": {
+          "size": { "status": "shrunk" },
+          "morphology": "abnormal",
+          "morphology_description": "表面不光滑",
+          "capsule": "rough",
+          "parenchyma_echo": "increased",
+          "parenchyma_description": "回声增粗增强",
+          "vessels": { "portal_vein": "内径正常" }
+        },
+        "spleen": {
+          "size": { "thickness_mm": 42, "status": "enlarged" },
+          "echo": "normal"
+        },
+        "impression_hints": ["肝脏缩小，肝硬化改变", "脾脏增大"],
+        "metadata": { "asr_text": "肝脏缩小，实质回声增粗增强，表面不光滑，门静脉内径正常，脾脏厚径四十二毫米。" }
+      },
+      "expected_findings": "肝脏缩小，实质回声增粗增强，表面不光滑，门静脉内径正常。脾脏厚径约42mm。",
+      "expected_impression": "肝脏缩小，肝硬化改变。\n脾脏增大。"
+    },
+    {
+      "id": "abd-020",
+      "asr_text": "腹腔见少量游离积液，肝脏胆囊胰腺脾脏双肾未见明显异常。",
+      "structured": {
+        "exam_type": "abdominal_ultrasound",
+        "organs_examined": ["liver", "gallbladder", "pancreas", "spleen", "kidney_left", "kidney_right"],
+        "liver": { "parenchyma_echo": "normal" },
+        "gallbladder": { "size": { "status": "normal" } },
+        "pancreas": { "visibility": "clear", "size": "normal" },
+        "spleen": { "size": { "status": "normal" } },
+        "kidneys": { "left": { "morphology": "normal" }, "right": { "morphology": "normal" } },
+        "free_fluid": { "present": true, "description": "少量游离积液" },
+        "impression_hints": ["腹腔少量积液"],
+        "metadata": { "asr_text": "腹腔见少量游离积液，肝脏胆囊胰腺脾脏双肾未见明显异常。" }
+      },
+      "expected_findings": "肝脏、胆囊、胰腺、脾脏、双肾未见明显异常。腹腔见少量游离积液。",
+      "expected_impression": "腹腔少量积液。"
+    }
+  ]
+}

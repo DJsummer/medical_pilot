@@ -1,0 +1,110 @@
+{
+  "exam_type": "abdominal_ultrasound",
+  "version": "1.0",
+  "description": "腹部超声报告模板 — 规则引擎拼接，非 LLM",
+  "organ_order": ["liver", "gallbladder", "bile_duct", "pancreas", "spleen", "kidneys", "bladder", "free_fluid", "other_findings"],
+  "default_normal": {
+    "liver": "肝脏大小、形态正常，包膜光滑，肝实质回声均匀。",
+    "gallbladder": "胆囊大小正常，壁不厚，腔内未见异常回声。",
+    "bile_duct": "肝内外胆管未见扩张。",
+    "pancreas": "胰腺大小形态正常，回声均匀，主胰管未见扩张。",
+    "spleen": "脾脏大小正常，回声均匀。",
+    "kidneys": "双肾大小形态正常，皮髓质分界清，集合系统未见分离。",
+    "bladder": "膀胱充盈尚可，壁光滑，腔内未见异常回声。"
+  },
+  "fragments": {
+    "liver": {
+      "size_normal": "肝脏大小、形态正常",
+      "size_enlarged": "肝脏增大",
+      "size_shrunk": "肝脏缩小",
+      "capsule_smooth": "包膜光滑",
+      "capsule_rough": "包膜毛糙",
+      "parenchyma_normal": "肝实质回声均匀",
+      "parenchyma_increased": "肝实质回声稍增强",
+      "parenchyma_decreased": "肝实质回声减低",
+      "parenchyma_heterogeneous": "肝实质回声不均匀",
+      "lesion_cyst": "{location}可见约{size_mm}mm无回声，{boundary_desc}，{posterior_desc}",
+      "lesion_solid": "{location}可见约{size_mm}mm{echo_desc}结节，{boundary_desc}，{posterior_desc}",
+      "lesion_hemangioma": "{location}可见约{size_mm}mm高回声团，{boundary_desc}"
+    },
+    "gallbladder": {
+      "size_normal": "胆囊大小正常",
+      "wall_normal": "壁不厚",
+      "wall_thickened": "壁增厚约{thickness_mm}mm",
+      "wall_thickened_desc": "壁{description}，厚约{thickness_mm}mm",
+      "lesion_stone_single": "腔内可见约{size_mm}mm强回声，{shadow_desc}，{mobility_desc}",
+      "lesion_stone_multiple": "腔内可见多个强回声，最大约{size_mm}mm，{shadow_desc}，{mobility_desc}",
+      "lesion_polyp": "腔内可见约{size_mm}mm强回声，{shadow_desc}，{mobility_desc}",
+      "cavity_no_stone": "腔内未见结石"
+    },
+    "bile_duct": {
+      "normal": "肝内外胆管未见扩张",
+      "cbd": "胆总管内径约{common_bile_duct_mm}mm",
+      "hepatic_normal": "肝内胆管未见扩张"
+    },
+    "pancreas": {
+      "normal": "胰腺大小形态正常，回声均匀，主胰管未见扩张",
+      "obscured": "胰腺显示不清",
+      "echo_increased": "胰腺{description}回声增强",
+      "duct_normal": "主胰管未见扩张",
+      "duct_dilated": "主胰管内径约{duct_mm}mm"
+    },
+    "spleen": {
+      "normal": "脾脏大小正常，回声均匀",
+      "enlarged": "脾脏厚径约{thickness_mm}mm，回声{echo_desc}"
+    },
+    "kidneys": {
+      "both_normal": "双肾大小形态正常，皮髓质分界清，集合系统未见分离",
+      "left_size": "左肾长径约{length_mm}mm",
+      "right_size": "右肾长径约{length_mm}mm",
+      "collecting_separation": "{side}肾集合系统分离约{separation_mm}mm",
+      "lesion_cyst": "{side}肾{location}可见约{size_mm}mm无回声，{boundary_desc}，{posterior_desc}",
+      "lesion_stone": "{side}肾{location}可见强回声约{size_mm}mm，{shadow_desc}",
+      "no_abnormal": "{side}肾未见明显异常"
+    },
+    "bladder": {
+      "normal": "膀胱充盈尚可，壁光滑，腔内未见异常回声",
+      "wall_thickened": "膀胱壁增厚约{wall_thickness_mm}mm",
+      "cavity_normal": "腔内未见异常回声"
+    },
+    "free_fluid": {
+      "absent": "腹腔未见游离积液",
+      "present": "腹腔见{description}"
+    }
+  },
+  "echo_map": {
+    "anechoic": "无回声",
+    "hypoechoic": "低回声",
+    "hyperechoic": "强回声",
+    "mixed": "混合回声",
+    "isoechoic": "等回声"
+  },
+  "boundary_map": {
+    "clear": "边界清",
+    "unclear": "边界欠清"
+  },
+  "mobility_map": {
+    "mobile": "改变体位可移动",
+    "immobile": "改变体位不移动",
+    "not_tested": "未探及移动"
+  },
+  "shadow_map": {
+    "true": "后方伴声影",
+    "false": "后方未见明显声影"
+  },
+  "posterior_map": {
+    "enhancement_true": "后方回声增强",
+    "enhancement_false": ""
+  },
+  "impression_templates": {
+    "no_abnormal": "腹部超声未见明显异常。",
+    "organ_no_abnormal": {
+      "kidneys": "双肾未见明显异常。",
+      "bladder": "膀胱未见明显异常。",
+      "gallbladder": "胆囊未见明显异常。"
+    },
+    "from_hints": "每条 impression_hint 独立一行"
+  },
+  "sentence_joiner": "。",
+  "organ_joiner": "\n"
+}

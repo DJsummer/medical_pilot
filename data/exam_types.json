@@ -1,0 +1,68 @@
+{
+  "version": "1.0",
+  "exam_types": [
+    {
+      "id": "abdominal_ultrasound",
+      "label": "腹部超声",
+      "schema_file": "abdominal_ultrasound.json",
+      "template_file": "abdominal_ultrasound.json",
+      "gold_file": "abdominal_20_samples.json",
+      "rules_file": "abdominal.json",
+      "gold_prefix": "abd"
+    },
+    {
+      "id": "thyroid_ultrasound",
+      "label": "甲状腺超声",
+      "schema_file": "thyroid_ultrasound.json",
+      "template_file": "thyroid_ultrasound.json",
+      "gold_file": "thyroid_samples.json",
+      "rules_file": "thyroid.json",
+      "gold_prefix": "thy"
+    },
+    {
+      "id": "breast_ultrasound",
+      "label": "乳腺超声",
+      "schema_file": "breast_ultrasound.json",
+      "template_file": "breast_ultrasound.json",
+      "gold_file": "breast_samples.json",
+      "rules_file": "breast.json",
+      "gold_prefix": "bre"
+    },
+    {
+      "id": "gynecology_ultrasound",
+      "label": "妇科超声",
+      "schema_file": "gynecology_ultrasound.json",
+      "template_file": "gynecology_ultrasound.json",
+      "gold_file": "gynecology_samples.json",
+      "rules_file": "gynecology.json",
+      "gold_prefix": "gyn"
+    },
+    {
+      "id": "cardiac_ultrasound",
+      "label": "心脏超声",
+      "schema_file": "cardiac_ultrasound.json",
+      "template_file": "cardiac_ultrasound.json",
+      "gold_file": "cardiac_samples.json",
+      "rules_file": "cardiac.json",
+      "gold_prefix": "car"
+    },
+    {
+      "id": "vascular_ultrasound",
+      "label": "血管超声",
+      "schema_file": "vascular_ultrasound.json",
+      "template_file": "vascular_ultrasound.json",
+      "gold_file": "vascular_samples.json",
+      "rules_file": "vascular.json",
+      "gold_prefix": "vas"
+    },
+    {
+      "id": "superficial_ln_ultrasound",
+      "label": "浅表淋巴结超声",
+      "schema_file": "superficial_ln_ultrasound.json",
+      "template_file": "superficial_ln_ultrasound.json",
+      "gold_file": "superficial_ln_samples.json",
+      "rules_file": "superficial_ln.json",
+      "gold_prefix": "ln"
+    }
+  ]
+}

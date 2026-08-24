@@ -1,0 +1,52 @@
+{
+  "version": "1.0",
+  "exam_type": "vascular_ultrasound",
+  "description": "血管超声 Gold Dataset",
+  "samples": [
+    {
+      "id": "vas-001",
+      "asr_text": "双侧颈动脉内膜光滑，未见明显斑块，血流通畅。",
+      "structured": {
+        "exam_type": "vascular_ultrasound",
+        "organs_examined": ["carotid_right", "carotid_left"],
+        "carotid_right": { "description": "内膜光滑，血流通畅", "plaques": [] },
+        "carotid_left": { "description": "内膜光滑，血流通畅", "plaques": [] },
+        "impression_hints": []
+      },
+      "expected_impression": "血管超声未见明显异常。"
+    },
+    {
+      "id": "vas-002",
+      "asr_text": "右侧颈动脉分叉处可见约3毫米强回声斑块，表面尚光滑，管腔未见明显狭窄。",
+      "structured": {
+        "exam_type": "vascular_ultrasound",
+        "organs_examined": ["carotid_right"],
+        "carotid_right": {
+          "plaques": [
+            {
+              "location": "分叉处",
+              "size_mm": 3,
+              "echo": "hyperechoic",
+              "surface": "smooth"
+            }
+          ],
+          "stenosis_percent": 0
+        },
+        "impression_hints": ["右侧颈动脉斑块形成。"]
+      },
+      "expected_impression": "右侧颈动脉斑块形成。"
+    },
+    {
+      "id": "vas-003",
+      "asr_text": "左侧颈动脉内膜厚约1.2毫米，椎动脉血流方向正常。",
+      "structured": {
+        "exam_type": "vascular_ultrasound",
+        "organs_examined": ["carotid_left", "vertebral"],
+        "carotid_left": { "imt_mm": 1.2 },
+        "vertebral": { "description": "血流方向正常" },
+        "impression_hints": ["左侧颈动脉内膜增厚。"]
+      },
+      "expected_impression": "左侧颈动脉内膜增厚。"
+    }
+  ]
+}
